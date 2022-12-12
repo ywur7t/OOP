@@ -6,5 +6,5 @@
 +-------------------+-------------+
 C--/ClassWorld/ClassWorld/
   HeaderOfClass.h
-  main
+  СlassWorld.cpp
 ```
