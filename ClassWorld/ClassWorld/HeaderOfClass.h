@@ -63,20 +63,32 @@ namespace program
 	public:
 		bool one;
 	};
+
+
+
+	
 	class bird :public animals
 	{
 	public:
-		friend bool size(bird );
+		friend bool size(bird &);
+		friend void printfunc(bird&);
 		bool fly;
 	private:
 		bool size;
 	};
 
-	bool size(bird obj)
+	bool size(bird& obj)
 	{
-		obj.fly == true && obj.weight < 5 ?  obj.size = true :  obj.size = false;
+		obj.fly == true && obj.weight < 5 ? obj.size = true : obj.size = false;
 		return obj.size;
 	}
+	void printfunc(bird& obj)
+	{
+		if (obj.size) std::cout << "small\n";
+		else std::cout << "medeum\n";
+	}
+
+
 
 	///////////////////////////
 	//////////////////////////
