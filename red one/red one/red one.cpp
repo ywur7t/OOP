@@ -1,10 +1,11 @@
-﻿//Ключ - номер аудитории(1 поле - 1 буква, 2 поле - 3 цифры)
+//Ключ - номер аудитории(1 поле - 1 буква, 2 поле - 3 цифры)
 //КЧ, без повторов, 
 //удаление(замена на минимальный справа), 
 //7 - Сравнить два дерева(два дерева равны, если содержат одинаковые элементы)
 
 #include <iostream>
 #include <tuple>
+#include<stack>
 
   enum nodecolor { black, red };
 struct nodekey//структура ключа
@@ -60,7 +61,15 @@ void rightrotate(node*& root, node* x)
     x->parent = y;
 }
 
-
+void inorder(node* first)
+{
+    if(first!=tnull)
+    {
+        inorder(first->left);
+        std::cout << first->key.literal << first->key.digit << " ";
+        inorder(first->right);
+    }
+}
 void draw(node* root, int h)
 {
     if (root != tnull)
@@ -160,7 +169,6 @@ void rb_insert(node*& root, nodekey* userkey)
         
     
 }
-
 
 node* search(node* x, nodekey* k)
 {
@@ -317,13 +325,123 @@ void rb_delete(node*& root, nodekey* userkey)
 //        return compare(first->left, second) && (search(second, &first->key) != tnull) && compare(first->right, second);
 //    }
 //}
+//
+//bool compare(node*first,node*second)
+//{
+//    if (first != tnull and second != tnull)
+//       
+//        return compare(first->left, second) && search(second, &first->key)!=tnull && compare(first->right, second);
+//}
 
-bool compare(node*first,node*second)
+
+
+
+
+
+
+
+void inorder(node* first, std::stack<std::pair<char, int>>& sf)
 {
-    if (first != tnull and second != tnull)
-       
-        return compare(first->left, second) && search(second, &first->key)!=tnull && compare(first->right, second);
+    if (first != tnull)
+    {
+        inorder(first->left, sf);
+
+        sf.push({first->key.literal,first->key.digit});
+        inorder(first->right, sf);
+    }
 }
+
+//std::tie(first->key.literal, first->key.digit) == std::tie(second->key.literal, second->key.digit)
+//bool compare(node* first, node* second, std::stack<std::pair<char, int>>& sf, std::stack<std::pair<char, int>>& ss)
+//{  
+//    //if (std::tie(first->key.literal,first->key.digit) != std::tie(second->key.literal, second->key.digit))
+//   //на 16 все ломается (во втором дереве при вызове 16 это 14)
+//    //if (first != tnull)
+//    //{
+//    //    compare(first->left, second, flag);
+//    //    if(flag)
+//    //    {
+//    //        if (std::tie(first->key.literal, first->key.digit) == std::tie(second->key.literal, second->key.digit))
+//    //            flag *= true;
+//    //        else
+//    //        {
+//    //            if (std::tie(first->key.literal, first->key.digit) > std::tie(second->key.literal, second->key.digit))
+//    //            {
+//    //                if ((second->right != tnull) && (std::tie(first->key.literal, first->key.digit) <= std::tie(second->right->key.literal, second->right->key.digit)))
+//    //                {
+//    //                    second = tree_minimum(second->right);
+//    //                    while (std::tie(first->key.literal, first->key.digit) > std::tie(second->key.literal, second->key.digit))
+//    //                        second = second->parent;
+//    //                }
+//    //                else 
+//    //                {
+//    //                    if (std::tie(first->key.literal, first->key.digit) > std::tie(second->left->key.literal, second->left->key.digit))
+//    //                        flag *= false;
+//    //                    else
+//    //                        while (std::tie(first->key.literal, first->key.digit) > std::tie(second->key.literal, second->key.digit))
+//    //                            second = second->parent;
+//    //                }
+//    //            }
+//    //            if (std::tie(first->key.literal, first->key.digit) == std::tie(second->key.literal, second->key.digit))
+//    //                flag *= true;
+//    //            else 
+//    //                flag *= false;
+//    //            //if (std::tie(first->key.literal, first->key.digit) > std::tie(second->key.literal, second->key.digit))
+//    //            //{
+//    //            //    if (second->right == tnull)
+//    //            //        while (std::tie(first->key.literal, first->key.digit) > std::tie(second->key.literal, second->key.digit))
+//    //            //            second = second->parent;
+//    //            //    else
+//    //            //        if (std::tie(first->key.literal, first->key.digit) > std::tie(second->right->key.literal, second->right->key.digit) /*&& std::tie(first->key.literal, first->key.digit) > std::tie(second->right->key.literal, second->right->key.digit)*/)
+//    //            //            second = second->parent;
+//    //            //        else
+//    //            //            if (std::tie(first->key.literal, first->key.digit) == std::tie(second->right->key.literal, second->right->key.digit))
+//    //            //                second = second->right;
+//    //            //            else
+//    //            //                second = tree_minimum(second->right);
+//    //            //}
+//    //            //else
+//    //            //{
+//    //            //}
+//    //            //if (std::tie(first->key.literal, first->key.digit) == std::tie(second->key.literal, second->key.digit))
+//    //            //     flag *= true;
+//    //            //else
+//    //            //     flag *= false;
+//    //        }
+//    //    }
+//    //    compare(first->right,second,flag);
+//    //}
+//    //else
+//    //{
+//    //    return flag;
+//    //}
+//    /*if (first != tnull and second !=tnull)
+//    {
+//        compare(first->left,second,flag);
+//
+//        if (flag)
+//        {
+//            while (second != tnull or (std::tie(first->key.literal, first->key.digit) == std::tie(second->key.literal, second->key.digit)))
+//            {
+//                if (std::tie(first->key.literal, first->key.digit) > std::tie(second->key.literal, second->key.digit))
+//                    second = second->right;
+//                else second = second->left;
+//            }
+//            if (second == tnull)flag *= false;
+//            else flag *= true;
+//        }
+//
+//        compare(first->right,second->right,flag);
+//    }*/
+//    
+//    inorder(first, sf);
+//    inorder(second, ss);
+//    int i = 0; bool flag = true;
+//    if (sf==ss)std::cout << "1";
+//    else std::cout << "2";
+//    return 0;
+//}
+
 
 
 
@@ -352,16 +470,11 @@ int main()
     node* first = nullptr;
     node* second = nullptr;
     nodekey* userkey = new nodekey();
-
-    //вывод дерева
-    /*
-        draw(first, 2);
-        std::cout << std::endl << std::endl;
-    */
+    std::stack<std::pair<char,int>> sf;
+    std::stack<std::pair<char, int>> ss;
     
-    //вставка 10 четных
+      
     std::cout << "\nfirst tree\n";
-    std::cout << std::endl << std::endl;
     for (auto i = 1; i != 16; ++i)
     {
         userkey->literal = 'q'; userkey->digit = i;
@@ -370,55 +483,25 @@ int main()
     draw(first, 2);
     std::cout << std::endl << std::endl;
    
+    std::cout << "\nsecond tree\n";
     for (auto i = 15; i != 0; --i)
     {
         userkey->literal = 'q'; userkey->digit = i;
+        
         rb_insert(second, userkey);
     }
-    std::cout << "\nsecond tree\n";
     draw(second, 2);
     std::cout << std::endl << std::endl;
-
-    //поиск
-    /*userkey->literal = 'q'; userkey->digit = 13;
-    if (search(first, userkey)!=tnull ) std::cout << "exist\n";
-    else std::cout << "not exist\n"; */
-
-    //удаление элемента
-    /*userkey->literal = 'q'; userkey->digit = 14;
-    rb_delete(first, userkey);
-    draw(first, 2);
-    std::cout << std::endl << std::endl;*/
-
-    //userkey->literal = 'q'; userkey->digit = 10;
-    //rb_delete(first, search(first, userkey));
-    //draw(first, 2);
-    //std::cout << std::endl << std::endl;
-
-    /*userkey->literal = 'q'; userkey->digit = 12;
-    rb_delete(first, search(first, userkey));
-    draw(first, 2);
-    std::cout << std::endl << std::endl;*/
-
        
-   
+
+    inorder(first);    std::cout << std::endl;    inorder(second);
+
+    inorder(first, sf);    inorder(second,ss);
     
-    //удаление дерева
-    /*deletetree(first);
-    if (first == tnull) std::cout << "empty tree\n";
-    else std::cout << "full\n";*/
-
-    
-    //сравнение двух деревьев      
-
-    if ((compare(first,second) ==true) and (compare(second,first)==true)) std::cout << "equil\n";
-    else std::cout << "not equil\n";
-
-
-
-
-
-
+    if( sf==ss)
+        std::cout << "\nequil\n";
+    else 
+        std::cout << "\nnot equil\n";
 
     return 0;
 }
