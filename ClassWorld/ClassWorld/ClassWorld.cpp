@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include<string>
 #include "HeaderOfClass.h"
 
@@ -52,5 +52,13 @@ int main()
     phantom>phantom1? std::cout << "\nphantom older&powerful then phantom1\n" : std::cout << "\nphantom !(older&powerful then) phantom1\n";
     
     phantom < phantom1 ? std::cout << "\nphantom !(older&powerful then) phantom1\n" : std::cout << "\nphantom older&powerful then phantom1\n";
+
+    program::bird bird;
+    
+    bird.fly = true;
+    bird.weight = 2;
+    program::size(bird);
+    program::printfunc(bird);
+
     return 0;
 }
