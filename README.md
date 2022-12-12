@@ -4,7 +4,7 @@
 +-------------------+-------------+
 | ФСДиА  | read one |             |
 +-------------------+-------------+
-classWorld
+C--/ClassWorld/ClassWorld/
   HeaderOfClass.h
   main
 ```
