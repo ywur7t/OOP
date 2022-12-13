@@ -20,7 +20,7 @@ struct node//структура узла
     struct node* left;    struct node* right;
 };
 node* tnull = new node();
-
+bool flag=true;
 
 void leftrotate(node*& root, node* x)
 {
@@ -338,20 +338,32 @@ void rb_delete(node*& root, nodekey* userkey)
 
 
 
-
-
-void inorder(node* first, std::stack<std::pair<char, int>>& sf)
+bool inorder(node* first, node*second,bool &flag)
 {
-    if (first != tnull)
+    
+   /* if(first->left!=tnull) 
+        inorder(first->left,second,flag);
+    if (second->left != tnull)
+        inorder(first,second->left,flag);
+    if (std::tie(first->key.literal, first->key.digit) == std::tie(second->key.literal, second->key.digit))
     {
-        inorder(first->left, sf);
-
-        sf.push({first->key.literal,first->key.digit});
-        inorder(first->right, sf);
+        return flag*=true;
     }
+    if (second->right != tnull)
+        inorder(first, second->right, flag);
+    if (first->right != tnull)
+        inorder(first->right,second,flag);*/
+    
+   
+    if (std::tie(first->key.literal, first->key.digit) == std::tie(second->key.literal, second->key.digit))
+        return false;
+    if(first!=tnull and second!=tnull)
+    return inorder(first->left, second->left, flag) && inorder(first->right, second->right, flag);
+
 }
 
 //std::tie(first->key.literal, first->key.digit) == std::tie(second->key.literal, second->key.digit)
+
 //bool compare(node* first, node* second, std::stack<std::pair<char, int>>& sf, std::stack<std::pair<char, int>>& ss)
 //{  
 //    //if (std::tie(first->key.literal,first->key.digit) != std::tie(second->key.literal, second->key.digit))
@@ -470,8 +482,7 @@ int main()
     node* first = nullptr;
     node* second = nullptr;
     nodekey* userkey = new nodekey();
-    std::stack<std::pair<char,int>> sf;
-    std::stack<std::pair<char, int>> ss;
+    bool flag=true,check=true;
     
       
     std::cout << "\nfirst tree\n";
@@ -494,11 +505,10 @@ int main()
     std::cout << std::endl << std::endl;
        
 
-    inorder(first);    std::cout << std::endl;    inorder(second);
-
-    inorder(first, sf);    inorder(second,ss);
+   
+   
     
-    if( sf==ss)
+    if(inorder(first,second,flag))
         std::cout << "\nequil\n";
     else 
         std::cout << "\nnot equil\n";
