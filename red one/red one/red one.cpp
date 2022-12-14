@@ -5,14 +5,14 @@
 
 #include <iostream>
 #include <tuple>
-#include<stack>
 
-  enum nodecolor { black, red };
+
+enum nodecolor { black, red };
 struct nodekey//структура ключа
 {
     char literal;
     int digit;
-};              
+};
 struct node//структура узла
 {
     struct node* parent;
@@ -20,7 +20,7 @@ struct node//структура узла
     struct node* left;    struct node* right;
 };
 node* tnull = new node();
-bool flag=true;
+
 
 void leftrotate(node*& root, node* x)
 {
@@ -46,7 +46,7 @@ void rightrotate(node*& root, node* x)
     node* y = x->left;
     x->left = y->right;
 
-    if (y->right != tnull and y->right!=nullptr)
+    if (y->right != tnull and y->right != nullptr)
         y->right->parent = x;
     y->parent = x->parent;
     if (x->parent == tnull and x->right != nullptr)
@@ -61,15 +61,6 @@ void rightrotate(node*& root, node* x)
     x->parent = y;
 }
 
-void inorder(node* first)
-{
-    if(first!=tnull)
-    {
-        inorder(first->left);
-        std::cout << first->key.literal << first->key.digit << " ";
-        inorder(first->right);
-    }
-}
 void draw(node* root, int h)
 {
     if (root != tnull)
@@ -80,8 +71,8 @@ void draw(node* root, int h)
         std::cout << root->key.literal << root->key.digit << " " << root->color << "\n";
         draw(root->left, h + 4);
     }
-    
-    
+
+
 }
 
 void rb_isert_fixup(node*& root, node* z)
@@ -140,7 +131,7 @@ void rb_insert(node*& root, nodekey* userkey)
     node* z = new node(); z->parent = nullptr; z->color = red; z->left = nullptr; z->right = nullptr; z->key.literal = userkey->literal; z->key.digit = userkey->digit;
     node* y = tnull;
     node* x = root;
-    while(x != tnull and x!=nullptr)
+    while (x != tnull and x != nullptr)
     {
         y = x;
         if (std::tie(z->key.literal, z->key.digit) < std::tie(x->key.literal, x->key.digit))
@@ -152,34 +143,34 @@ void rb_insert(node*& root, nodekey* userkey)
     z->parent = y;
     if (y == tnull)
         root = z;
-    else 
-    
+    else
+
         if (std::tie(z->key.literal, z->key.digit) < std::tie(y->key.literal, y->key.digit))
         {
             y->left = z;
         }
         else
-        
+
             y->right = z;
     z->left = tnull;
     z->right = tnull;
     z->color = red;
-                            root->parent = tnull;
+    root->parent = tnull;
     rb_isert_fixup(root, z);
-        
-    
+
+
 }
 
 node* search(node* x, nodekey* k)
 {
-    if (x == tnull or (  std::tie(k->literal,k->digit)==std::tie(x->key.literal,x->key.digit)      ))
+    if (x == tnull or (std::tie(k->literal, k->digit) == std::tie(x->key.literal, x->key.digit)))
         return x;
     if (std::tie(k->literal, k->digit) < std::tie(x->key.literal, x->key.digit))
         return search(x->left, k);
     else return search(x->right, k);
 }
 
-void rb_delete_fixup(node* &root, node* x)
+void rb_delete_fixup(node*& root, node* x)
 {
     while (x != root and x->color == black)
     {
@@ -282,14 +273,14 @@ void rb_delete(node*& root, nodekey* userkey)
         {
             if (z->right == tnull)
             {
-                /*node**/ x = z->left;
+                 x = z->left;
                 rb_transplant(root, z, z->left);
             }
             else
             {
                 y = tree_minimum(z->right);
                 y_original_color = y->color;
-                /*node**/ x = y->right;
+                 x = y->right;
                 if (y->parent == z)
                     x->parent = y;
                 else
@@ -307,168 +298,30 @@ void rb_delete(node*& root, nodekey* userkey)
         }
         if (y_original_color == black)
             rb_delete_fixup(root, x);
-    }    
+    }
 }
 
-//bool compare(node* first, node* second)
-//{
-//    node* elem = second;
-//   /* if (first != tnull)
-//    {
-//        compare(first->left, second->left);
-//        if (std::tie(first->key.digit) == std::tie(second->key.digit) and std::tie(first->key.literal) == std::tie(second->key.literal))
-//            compare(first->right,second->right);
-//        else return false;
-//    }
-//    return true;*/
-//    if (first != tnull) {
-//        return compare(first->left, second) && (search(second, &first->key) != tnull) && compare(first->right, second);
-//    }
-//}
-//
-//bool compare(node*first,node*second)
-//{
-//    if (first != tnull and second != tnull)
-//       
-//        return compare(first->left, second) && search(second, &first->key)!=tnull && compare(first->right, second);
-//}
 
-
-
-
-
-
-bool inorder(node* first, node*second,bool &flag)
+bool inorder(node* first, node* second)
 {
-    
-   /* if(first->left!=tnull) 
-        inorder(first->left,second,flag);
-    if (second->left != tnull)
-        inorder(first,second->left,flag);
-    if (std::tie(first->key.literal, first->key.digit) == std::tie(second->key.literal, second->key.digit))
-    {
-        return flag*=true;
-    }
-    if (second->right != tnull)
-        inorder(first, second->right, flag);
-    if (first->right != tnull)
-        inorder(first->right,second,flag);*/
-    
-   
     if (std::tie(first->key.literal, first->key.digit) == std::tie(second->key.literal, second->key.digit))
         return false;
-    if(first!=tnull and second!=tnull)
-    return inorder(first->left, second->left, flag) && inorder(first->right, second->right, flag);
-
+    if (first != tnull and second != tnull)
+        return inorder(first->left, second->left) && inorder(first->right, second->right);
 }
-
-//std::tie(first->key.literal, first->key.digit) == std::tie(second->key.literal, second->key.digit)
-
-//bool compare(node* first, node* second, std::stack<std::pair<char, int>>& sf, std::stack<std::pair<char, int>>& ss)
-//{  
-//    //if (std::tie(first->key.literal,first->key.digit) != std::tie(second->key.literal, second->key.digit))
-//   //на 16 все ломается (во втором дереве при вызове 16 это 14)
-//    //if (first != tnull)
-//    //{
-//    //    compare(first->left, second, flag);
-//    //    if(flag)
-//    //    {
-//    //        if (std::tie(first->key.literal, first->key.digit) == std::tie(second->key.literal, second->key.digit))
-//    //            flag *= true;
-//    //        else
-//    //        {
-//    //            if (std::tie(first->key.literal, first->key.digit) > std::tie(second->key.literal, second->key.digit))
-//    //            {
-//    //                if ((second->right != tnull) && (std::tie(first->key.literal, first->key.digit) <= std::tie(second->right->key.literal, second->right->key.digit)))
-//    //                {
-//    //                    second = tree_minimum(second->right);
-//    //                    while (std::tie(first->key.literal, first->key.digit) > std::tie(second->key.literal, second->key.digit))
-//    //                        second = second->parent;
-//    //                }
-//    //                else 
-//    //                {
-//    //                    if (std::tie(first->key.literal, first->key.digit) > std::tie(second->left->key.literal, second->left->key.digit))
-//    //                        flag *= false;
-//    //                    else
-//    //                        while (std::tie(first->key.literal, first->key.digit) > std::tie(second->key.literal, second->key.digit))
-//    //                            second = second->parent;
-//    //                }
-//    //            }
-//    //            if (std::tie(first->key.literal, first->key.digit) == std::tie(second->key.literal, second->key.digit))
-//    //                flag *= true;
-//    //            else 
-//    //                flag *= false;
-//    //            //if (std::tie(first->key.literal, first->key.digit) > std::tie(second->key.literal, second->key.digit))
-//    //            //{
-//    //            //    if (second->right == tnull)
-//    //            //        while (std::tie(first->key.literal, first->key.digit) > std::tie(second->key.literal, second->key.digit))
-//    //            //            second = second->parent;
-//    //            //    else
-//    //            //        if (std::tie(first->key.literal, first->key.digit) > std::tie(second->right->key.literal, second->right->key.digit) /*&& std::tie(first->key.literal, first->key.digit) > std::tie(second->right->key.literal, second->right->key.digit)*/)
-//    //            //            second = second->parent;
-//    //            //        else
-//    //            //            if (std::tie(first->key.literal, first->key.digit) == std::tie(second->right->key.literal, second->right->key.digit))
-//    //            //                second = second->right;
-//    //            //            else
-//    //            //                second = tree_minimum(second->right);
-//    //            //}
-//    //            //else
-//    //            //{
-//    //            //}
-//    //            //if (std::tie(first->key.literal, first->key.digit) == std::tie(second->key.literal, second->key.digit))
-//    //            //     flag *= true;
-//    //            //else
-//    //            //     flag *= false;
-//    //        }
-//    //    }
-//    //    compare(first->right,second,flag);
-//    //}
-//    //else
-//    //{
-//    //    return flag;
-//    //}
-//    /*if (first != tnull and second !=tnull)
-//    {
-//        compare(first->left,second,flag);
-//
-//        if (flag)
-//        {
-//            while (second != tnull or (std::tie(first->key.literal, first->key.digit) == std::tie(second->key.literal, second->key.digit)))
-//            {
-//                if (std::tie(first->key.literal, first->key.digit) > std::tie(second->key.literal, second->key.digit))
-//                    second = second->right;
-//                else second = second->left;
-//            }
-//            if (second == tnull)flag *= false;
-//            else flag *= true;
-//        }
-//
-//        compare(first->right,second->right,flag);
-//    }*/
-//    
-//    inorder(first, sf);
-//    inorder(second, ss);
-//    int i = 0; bool flag = true;
-//    if (sf==ss)std::cout << "1";
-//    else std::cout << "2";
-//    return 0;
-//}
-
-
-
 
 
 void deletetree(node*& root)
 {
-    if (root != tnull )
-    {       
+    if (root != tnull)
+    {
         deletetree(root->left);
         if (root->left != tnull)
             delete(root->left);
-       
-        deletetree(root->right);  
-        if(root->right!=tnull)
-            delete(root->right);       
+
+        deletetree(root->right);
+        if (root->right != tnull)
+            delete(root->right);
     }
     if (root->left == tnull and root->right == tnull) { delete(root); root = tnull; }
 
@@ -482,36 +335,6 @@ int main()
     node* first = nullptr;
     node* second = nullptr;
     nodekey* userkey = new nodekey();
-    bool flag=true,check=true;
-    
-      
-    std::cout << "\nfirst tree\n";
-    for (auto i = 1; i != 16; ++i)
-    {
-        userkey->literal = 'q'; userkey->digit = i;
-         rb_insert(first, userkey);        
-    }
-    draw(first, 2);
-    std::cout << std::endl << std::endl;
-   
-    std::cout << "\nsecond tree\n";
-    for (auto i = 15; i != 0; --i)
-    {
-        userkey->literal = 'q'; userkey->digit = i;
-        
-        rb_insert(second, userkey);
-    }
-    draw(second, 2);
-    std::cout << std::endl << std::endl;
-       
-
-   
-   
-    
-    if(inorder(first,second,flag))
-        std::cout << "\nequil\n";
-    else 
-        std::cout << "\nnot equil\n";
 
     return 0;
 }
