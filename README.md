@@ -2,9 +2,8 @@
 +-------------------+-------------+
 |  ООП   |  class   |  read file  |
 +-------------------+-------------+
-| ФСДиА  | read one |             |
-+-------------------+-------------+
-C--/ClassWorld/ClassWorld/
+
+OOP/ClassWorld/ClassWorld/
   HeaderOfClass.h
   СlassWorld.cpp
 ```
