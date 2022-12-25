@@ -1,5 +1,4 @@
 #pragma once
-
 namespace program
 {
 	class basic_parameters
@@ -11,18 +10,18 @@ namespace program
 		double weight;
 		double growth;
 		double power;
+		virtual void NamePrint(std::string name)
+		{
+			std::cout << "|name       | " << name << "\n";
+		}
 	};
-	///////////////////////////
-	//////////////////////////
 	class anthropomorthic :public basic_parameters
 	{
 	public:		
 		bool mind;
 		bool magic;
 		std::string profession;
-	};
-	
-	
+	};	
 	class triton :public anthropomorthic
 	{
 	public:
@@ -30,18 +29,13 @@ namespace program
 	};
 	class elf :public anthropomorthic
 	{
-	public:
+	public:	
 		bool light;
 	};
-	
-	///////////////////////////
-	//////////////////////////
 	class animals :public basic_parameters
 	{
-	public:
-		
-		std::string zone;
-		
+	public:		
+		std::string zone;		
 		double dangerCheck(anthropomorthic obj1, animals obj2)
 		{
 			if (obj1.power > obj2.power)
@@ -53,7 +47,6 @@ namespace program
 				else return danger = 2;
 			}
 		}
-
 	private:
 		int danger;
 	};
@@ -62,11 +55,7 @@ namespace program
 	{
 	public:
 		bool one;
-	};
-
-
-
-	
+	};	
 	class bird :public animals
 	{
 	public:
@@ -84,19 +73,15 @@ namespace program
 	}
 	void printfunc(bird& obj)
 	{
+		std::cout << "+--------bird---------+\n";
+		std::cout  << obj.name << " size is ";
 		if (obj.size) std::cout << "small\n";
 		else std::cout << "medeum\n";
 	}
-
-
-
-	///////////////////////////
-	//////////////////////////
 	class creature :public animals
 	{
 	public:
 		bool real;
-
 		creature operator+(creature& obj1)
 		{
 			creature obj2;
@@ -120,27 +105,23 @@ namespace program
 		{
 			return !((age > obj1.age) && (power > obj1.power));
 		}
-
 	};
-
-
-	
-
-
-
-
 	class ghost :public creature
 	{
 	public:
 		std::string fear;
 	};
-	class sirenas :public creature
+	class mimc :public creature
 	{
 	public:
-		double speed;
+		double speed;	
+		program::mimc( program::elf&& w)
+		{
+			age = w.age; 
+			power = w.power; 
+			growth = w.growth; 
+			weight = w.weight; 
+			w.age = 0; w.power = 0; w.growth = 0; w.weight = 0;
+		}
 	};
-
-	
-
-
 }
